@@ -1,100 +1,157 @@
-import Checkbox from '@/Components/Checkbox';
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
-import GuestLayout from '@/Layouts/GuestLayout';
-import { Head, Link, useForm } from '@inertiajs/react';
+// resources/js/Pages/Auth/Login.jsx
+import React from 'react'
+import { Head, Link, useForm } from '@inertiajs/react'
+import {
+  Grid, Box, Stack, Typography,
+  TextField, FormControlLabel, Checkbox,
+  Button, CircularProgress
+} from '@mui/material'
+
+import PageContainer from '@modernize/components/container/PageContainer'
+import Logo from '@modernize/layouts/full/shared/logo/Logo'
+import img1 from '@modernize/assets/images/backgrounds/login-bg.svg'
 
 export default function Login({ status, canResetPassword }) {
-    const { data, setData, post, processing, errors, reset } = useForm({
-        email: '',
-        password: '',
-        remember: false,
-    });
+  const { data, setData, post, processing, errors, reset } = useForm({
+    email: '',
+    password: '',
+    remember: false,
+  })
 
-    const submit = (e) => {
-        e.preventDefault();
+  const submit = (e) => {
+    e.preventDefault()
+    post(route('login'), {
+      onFinish: () => reset('password'),
+    })
+  }
 
-        post(route('login'), {
-            onFinish: () => reset('password'),
-        });
-    };
+  return (
+    <PageContainer title="Login" description="This is the login page">
+      <Head title="Log in" />
+      <Grid container spacing={0} sx={{ overflowX: 'hidden' }}>
+        {/* LEFT: branding + art */}
+        <Grid
+          item xs={12} sm={12} lg={7} xl={8}
+          sx={{
+            position: 'relative',
+            '&:before': {
+              content: '""',
+              background: 'radial-gradient(#d2f1df, #d3d7fa, #bad8f4)',
+              backgroundSize: '400% 400%',
+              animation: 'gradient 15s ease infinite',
+              position: 'absolute',
+              inset: 0,
+              opacity: 0.3,
+            },
+          }}
+        >
+          <Box position="relative">
+            <Box px={3} pt={3}><Logo /></Box>
+            <Box
+              alignItems="center"
+              justifyContent="center"
+              height={'calc(100vh - 75px)'}
+              sx={{ display: { xs: 'none', lg: 'flex' } }}
+            >
+              <img src={img1} alt="bg" style={{ width: '100%', maxWidth: 500 }} />
+            </Box>
+          </Box>
+        </Grid>
 
-    return (
-        <GuestLayout>
-            <Head title="Log in" />
+        {/* RIGHT: form */}
+        <Grid item xs={12} sm={12} lg={5} xl={4}
+          display="flex" justifyContent="center" alignItems="center">
+          <Box p={4} width="100%" maxWidth={420}>
+            <Typography variant="h4" fontWeight={700} mb={1}>
+              Welcome to Modernize
+            </Typography>
+            <Typography variant="subtitle1" color="text.secondary" mb={3}>
+              Your Admin Dashboard
+            </Typography>
 
             {status && (
-                <div className="mb-4 text-sm font-medium text-green-600">
-                    {status}
-                </div>
+              <Box mb={2}>
+                <Typography fontSize={14} color="success.main">{status}</Typography>
+              </Box>
             )}
 
-            <form onSubmit={submit}>
-                <div>
-                    <InputLabel htmlFor="email" value="Email" />
+            <Box component="form" onSubmit={submit}>
+              <Stack spacing={2.5}>
+                <TextField
+                  id="email"
+                  label="Email"
+                  type="email"
+                  name="email"
+                  fullWidth
+                  autoComplete="username"
+                  value={data.email}
+                  onChange={(e) => setData('email', e.target.value)}
+                  error={Boolean(errors.email)}
+                  helperText={errors.email}
+                />
 
-                    <TextInput
-                        id="email"
-                        type="email"
-                        name="email"
-                        value={data.email}
-                        className="mt-1 block w-full"
-                        autoComplete="username"
-                        isFocused={true}
-                        onChange={(e) => setData('email', e.target.value)}
+                <TextField
+                  id="password"
+                  label="Password"
+                  type="password"
+                  name="password"
+                  fullWidth
+                  autoComplete="current-password"
+                  value={data.password}
+                  onChange={(e) => setData('password', e.target.value)}
+                  error={Boolean(errors.password)}
+                  helperText={errors.password}
+                />
+
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={data.remember}
+                      onChange={(e) => setData('remember', e.target.checked)}
                     />
+                  }
+                  label="Remember me"
+                  sx={{ userSelect: 'none' }}
+                />
 
-                    <InputError message={errors.email} className="mt-2" />
-                </div>
+                <Stack direction="row" justifyContent="space-between" alignItems="center">
+                  {canResetPassword && (
+                    <Link
+                      href={route('password.request')}
+                      className="text-sm"
+                      style={{ textDecoration: 'none', color: 'var(--mui-palette-primary-main)' }}
+                    >
+                      Forgot your password?
+                    </Link>
+                  )}
 
-                <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
+                  <Button
+                    variant="contained"
+                    type="submit"
+                    disabled={processing}
+                    endIcon={processing ? <CircularProgress size={18} /> : null}
+                  >
+                    Log in
+                  </Button>
+                </Stack>
 
-                    <TextInput
-                        id="password"
-                        type="password"
-                        name="password"
-                        value={data.password}
-                        className="mt-1 block w-full"
-                        autoComplete="current-password"
-                        onChange={(e) => setData('password', e.target.value)}
-                    />
-
-                    <InputError message={errors.password} className="mt-2" />
-                </div>
-
-                <div className="mt-4 block">
-                    <label className="flex items-center">
-                        <Checkbox
-                            name="remember"
-                            checked={data.remember}
-                            onChange={(e) =>
-                                setData('remember', e.target.checked)
-                            }
-                        />
-                        <span className="ms-2 text-sm text-gray-600">
-                            Remember me
-                        </span>
-                    </label>
-                </div>
-
-                <div className="mt-4 flex items-center justify-end">
-                    {canResetPassword && (
-                        <Link
-                            href={route('password.request')}
-                            className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                        >
-                            Forgot your password?
-                        </Link>
-                    )}
-
-                    <PrimaryButton className="ms-4" disabled={processing}>
-                        Log in
-                    </PrimaryButton>
-                </div>
-            </form>
-        </GuestLayout>
-    );
+                <Stack direction="row" spacing={1} mt={1}>
+                  <Typography color="text.secondary" variant="body2">
+                    New to Modernize?
+                  </Typography>
+                  <Link
+                    href={route('register')}
+                    className="text-sm"
+                    style={{ textDecoration: 'none', color: 'var(--mui-palette-primary-main)' }}
+                  >
+                    Create an account
+                  </Link>
+                </Stack>
+              </Stack>
+            </Box>
+          </Box>
+        </Grid>
+      </Grid>
+    </PageContainer>
+  )
 }

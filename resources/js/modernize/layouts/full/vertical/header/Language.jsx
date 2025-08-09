@@ -48,9 +48,11 @@ const Language = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  useEffect(() => {
+useEffect(() => {
+  if (i18n && typeof i18n.changeLanguage === 'function') {
     i18n.changeLanguage(customizer.isLanguage);
-  }, []);
+  }
+}, [customizer.isLanguage, i18n]);
 
   return (
     <>

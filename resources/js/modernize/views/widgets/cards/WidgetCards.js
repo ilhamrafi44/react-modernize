@@ -5,7 +5,7 @@ import PageContainer from '@modernize/components/container/PageContainer';
 
 import PaymentGateways from '../../../components/dashboards/ecommerce/PaymentGateways';
 import RecentTransactions from '../../../components/dashboards/ecommerce/RecentTransactions';
-import TopCards from '../../..//components/dashboards/modern/TopCards';
+import TopCards from '../../../components/dashboards/modern/TopCards';
 import UpcomingAcitivity from '../../../components/widgets/cards/UpcomingActivity';
 import ComplexCard from '../../../components/widgets/cards/ComplexCard';
 import MusicCard from '../../../components/widgets/cards/MusicCard';

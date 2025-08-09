@@ -23,14 +23,19 @@ export default defineConfig({
   },
 
   // Tell esbuild to treat .js files as JSX during dependency scanning
-  optimizeDeps: {
-    esbuildOptions: {
-      loader: {
-        '.js': 'jsx',
-      },
-    },
-  },
+  // optimizeDeps: {
+  //   esbuildOptions: {
+  //     loader: {
+  //       '.js': 'jsx',
+  //     },
+  //   },
+  // },
 
+  // App source transform: only treat Modernize .js files as JSX
+  // esbuild: {
+  //   loader: 'jsx',
+  //   include: /resources\/js\/modernize\/.*\.js$/,
+  // },
   // If you plan to use SSR later, mirror the same loader for SSR too:
   // ssr: {
   //   noExternal: [],

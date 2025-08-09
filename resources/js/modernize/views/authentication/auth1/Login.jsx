@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { Grid, Box, Stack, Typography } from '@mui/material';
 import PageContainer from '@modernize/components/container/PageContainer';
 import img1 from '@modernize/assets/images/backgrounds/login-bg.svg';
@@ -78,7 +78,7 @@ const Login = () => (
                 <Typography color="textSecondary" variant="h6" fontWeight="500">
                   New to Modernize?
                 </Typography>
-                <Typography
+                {/* <Typography
                   component={Link}
                   to="/auth/register"
                   fontWeight="500"
@@ -88,7 +88,7 @@ const Login = () => (
                   }}
                 >
                   Create an account
-                </Typography>
+                </Typography> */}
               </Stack>
             }
           />

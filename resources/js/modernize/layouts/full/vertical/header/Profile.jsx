@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Box, Menu, Avatar, Typography, Divider, Button, IconButton } from '@mui/material';
 import * as dropdownData from './data';
+import { router } from '@inertiajs/react';
 
 import { IconMail } from '@tabler/icons-react';
 import { Stack } from '@mui/system';
@@ -17,6 +18,9 @@ const Profile = () => {
   };
   const handleClose2 = () => {
     setAnchorEl2(null);
+  };
+  const handleLogout = () => {
+    router.post(route('logout'));
   };
 
   return (
@@ -152,15 +156,14 @@ const Profile = () => {
                   <img src={unlimitedImg} alt="unlimited" className="signup-bg"></img>
                 </Box>
               </Box>
-              <Button
-                to="/auth/login"
-                variant="outlined"
-                color="primary"
-                component={Link}
-                fullWidth
-              >
-                Logout
-              </Button>
+               <Button
+      onClick={handleLogout}
+      variant="outlined"
+      color="primary"
+      fullWidth
+    >
+      Logout
+    </Button>
             </Box>
           </Box>
         </Scrollbar>
